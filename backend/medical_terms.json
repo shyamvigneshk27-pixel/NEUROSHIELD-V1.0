@@ -1,0 +1,21 @@
+{
+    "ictal": "Ictal refers to the period during a seizure, the actual event itself.",
+    "preictal": "Preictal refers to the period immediately before a seizure. This is the critical window for seizure prediction.",
+    "postictal": "Postictal refers to the period following a seizure, where the brain recovers. It is often characterized by confusion or fatigue.",
+    "interictal": "Interictal refers to the period between seizures.",
+    "eeg": "Electroencephalography (EEG) is a method to record an electrogram of the spontaneous electrical activity of the brain.",
+    "epilepsy": "Epilepsy is a central nervous system (neurological) disorder in which brain activity becomes abnormal, causing seizures or periods of unusual behavior, sensations, and sometimes loss of awareness.",
+    "seizure": "A seizure is a sudden, uncontrolled electrical disturbance in the brain. It can cause changes in your behavior, movements or feelings, and in levels of consciousness.",
+    "frequency": "In EEG, frequency refers to the speed of the electrical waves, measured in Hertz (Hz). Different frequencies correspond to different brain states (Alpha, Beta, Delta, Theta).",
+    "spectrogram": "A spectrogram is a visual representation of the spectrum of frequencies of a signal as it varies with time.",
+    "alpha": "Alpha waves (8-13 Hz) are neural oscillations usually associated with relaxed, wakeful states.",
+    "beta": "Beta waves (13-30 Hz) are associated with active thinking and concentration.",
+    "delta": "Delta waves (0.5-4 Hz) are high amplitude brain waves associated with deep sleep.",
+    "theta": "Theta waves (4-8 Hz) are often associated with drowsiness or meditation.",
+    "gamma": "Gamma waves (30-80 Hz) are high-frequency oscillations associated with cognitive processing and peak mental focus. In some cases, high Gamma activity can be linked to pre-seizure states.",
+    "spike-and-wave": "A characteristic EEG pattern seen in certain types of epilepsy, appearing as a sharp 'spike' followed by a slow 'wave'.",
+    "artifact": "In EEG, an artifact is a signal that does not come from the brain, such as eye blinks, muscle movements, or electrical noise.",
+    "nyquist frequency": "Half of the sampling rate of a system. For our 178Hz system, the Nyquist frequency is 89Hz, which is the maximum frequency we can accurately detect.",
+    "model reliability": "This indicates the historical accuracy of our AI models (e.g., 94%). It helps clinicians understand how much trust to place in a specific prediction.",
+    "risk calibration": "Our system calibrates risk scores to reflect clinical uncertainty. A 95% score is the highest 'Ictal State' probability allowed to ensure clinical oversight is always maintained."
+}
