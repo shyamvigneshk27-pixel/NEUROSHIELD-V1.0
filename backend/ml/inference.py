@@ -8,8 +8,11 @@ import pandas as pd
 import io
 import os
 import sys
+<<<<<<< HEAD
 import cv2
 import librosa
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
 # Add necessary paths for utilities
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -218,7 +221,10 @@ class Predictor:
                 }
                 
                 return {
+<<<<<<< HEAD
                     "mode": "csv",
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                     "label": display_label,
                     "risk_score": round(risk_score, 2),
                     "confidence": float(conf * 100),
@@ -260,7 +266,10 @@ class Predictor:
             }
             
             return {
+<<<<<<< HEAD
                 "mode": "csv",
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                 "label": display_label,
                 "risk_score": round(risk_score, 2),
                 "confidence": float(max_prob * 100),
@@ -296,6 +305,7 @@ class Predictor:
             is_seizure = torch.argmax(probs[0]).item() == 1
             display_label = "Seizure" if is_seizure else "Normal"
             
+<<<<<<< HEAD
             # --- SPECTROGRAM PIPELINE ---
             nparr = np.frombuffer(image_bytes, np.uint8)
             img_cv = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -371,6 +381,29 @@ class Predictor:
             
             return {
                 "mode": "spectrogram",
+=======
+            # Estimate signal for stats
+            est_signal = self.estimate_signal_from_spectrogram(image)
+            filtered = bandpass_filter(est_signal) if est_signal else []
+            
+            # Extract bands DIRECTLY from spectrogram image rows for better accuracy
+            bands = self.extract_bands_from_spectrogram(image)
+
+            # Smoothed risk score for image
+            risk_score = self.smooth_risk_score(conf, label_is_seizure=is_seizure)
+            
+            # Unified stats calculation from estimated signal
+            stats = {
+                "mean_amplitude": float(np.mean(filtered)) if len(filtered) > 0 else 0.0,
+                "std_deviation": float(np.std(filtered)) if len(filtered) > 0 else 0.0,
+                "max_peak": float(np.max(filtered)) if len(filtered) > 0 else 0.0,
+                "min_valley": float(np.min(filtered)) if len(filtered) > 0 else 0.0,
+                "variance": float(np.var(filtered)) if len(filtered) > 0 else 0.0,
+                "zero_crossings": int(np.sum(np.diff(np.signbit(filtered)).astype(int))) if len(filtered) > 0 else 0
+            }
+
+            return {
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                 "label": display_label,
                 "risk_score": round(risk_score, 2),
                 "confidence": float(conf * 100),
@@ -378,9 +411,70 @@ class Predictor:
                 "bands": bands,
                 "stats": stats,
                 "interpretation": f"Visual spectrogram analysis complete. {display_label} features identified with specific neural band intensities.",
+<<<<<<< HEAD
                 "raw_signal": pseudo_signal
             }
         except Exception as e:
             import traceback
             print(traceback.format_exc())
             return {"error": f"Image processing failure: {str(e)}"}
+=======
+                "raw_signal": est_signal
+            }
+        except Exception as e:
+             return {"error": f"Image processing failure: {str(e)}"}
+
+    def extract_bands_from_spectrogram(self, image):
+        """
+        Directly extracts neural bands from spectrogram pixel intensities.
+        Assumes frequency increases from bottom to top.
+        """
+        try:
+            img_gray = image.convert('L').resize((200, 200)) # Standardized size
+            arr = np.array(img_gray).astype(float)
+            
+            # Rows in image correspond to frequencies
+            # Bottom rows (high index) are low frequencies, Top rows (low index) are high frequencies
+            # We map 200 rows to Delta(0-4Hz), Theta(4-8Hz), Alpha(8-13Hz), Beta(13-30Hz), Gamma(30-80Hz)
+            # This mapping is approximate based on standard EEG spectrogram displays
+            height = arr.shape[0]
+            
+            # Intensity per row (sum across time)
+            row_intensities = np.mean(arr, axis=1)
+            
+            # Reverse because index 0 is Top (Gamma) and height-1 is Bottom (Delta)
+            row_intensities = row_intensities[::-1]
+            
+            # Segment row indices into bands (approximate mapping for 0-80Hz range)
+            bands = {
+                "delta": row_intensities[0:int(height*0.1)],       # 0-8Hz (Delta/Theta mix)
+                "theta": row_intensities[int(height*0.1):int(height*0.2)],
+                "alpha": row_intensities[int(height*0.2):int(height*0.35)], # 16-28Hz range approximately
+                "beta": row_intensities[int(height*0.35):int(height*0.7)],
+                "gamma": row_intensities[int(height*0.7):]
+            }
+            
+            powers = {k: float(np.mean(v)) if len(v) > 0 else 1.0 for k, v in bands.items()}
+            total = sum(powers.values()) + 1e-10
+            
+            return {k: (v/total)*100 for k, v in powers.items()}
+        except Exception as e:
+            print(f"Bands extraction failed: {e}")
+            return {"delta": 20, "theta": 20, "alpha": 20, "beta": 20, "gamma": 20}
+
+    def estimate_signal_from_spectrogram(self, image, target_length=178):
+        try:
+            img_gray = image.convert('L')
+            arr = np.array(img_gray).astype(float)
+            col_means = np.mean(arr, axis=0)
+            col_means -= col_means.mean()
+            if col_means.std() > 0:
+                col_means = col_means / (col_means.std())
+            
+            x_old = np.linspace(0, 1, len(col_means))
+            x_new = np.linspace(0, 1, target_length)
+            sig = np.interp(x_new, x_old, col_means)
+            return [float(x) for x in sig]
+        except:
+            return []
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502

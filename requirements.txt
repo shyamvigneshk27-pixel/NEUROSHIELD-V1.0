@@ -8,7 +8,10 @@ torchvision
 Pillow
 numpy
 scikit-learn
+<<<<<<< HEAD
 google-genai
 python-dotenv
 opencv-python-headless
 librosa
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502

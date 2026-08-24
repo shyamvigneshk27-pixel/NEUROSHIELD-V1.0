@@ -1,0 +1,32 @@
+﻿Searching for RF Model at: D:\MINIPROJECT\midnight-eclipse\backend\ml\models\best_rf_model.pkl
+SUCCESS: Neural RF Model loaded from D:\MINIPROJECT\midnight-eclipse\backend\ml\models\best_rf_model.pkl
+Searching for CNN Model at: D:\MINIPROJECT\midnight-eclipse\backend\ml\models\cnn_model.pth
+SUCCESS: Neural CNN Model loaded from D:\MINIPROJECT\midnight-eclipse\backend\ml\models\cnn_model.pth
+Searching for LSTM Model at: D:\MINIPROJECT\midnight-eclipse\backend\ml\models\lstm_model.pth
+SUCCESS: LSTM Model loaded from D:\MINIPROJECT\midnight-eclipse\backend\ml\models\lstm_model.pth
+
+Testing Seizure samples from D:\MINIPROJECT\midnight-eclipse\backend\ml\..\..\dataset/seizure:
+[PASS] File: S001.csv -> Predicted: Seizure (Conf: 99.97%, Risk: 99.99%)
+[PASS] File: S002.csv -> Predicted: Seizure (Conf: 99.97%, Risk: 99.99%)
+[PASS] File: S003.csv -> Predicted: Seizure (Conf: 99.97%, Risk: 99.99%)
+[PASS] File: S004.csv -> Predicted: Seizure (Conf: 99.94%, Risk: 99.99%)
+[PASS] File: S005.csv -> Predicted: Seizure (Conf: 99.97%, Risk: 99.99%)
+[PASS] File: S006.csv -> Predicted: Seizure (Conf: 99.96%, Risk: 99.99%)
+[PASS] File: S007.csv -> Predicted: Seizure (Conf: 99.97%, Risk: 99.99%)
+[PASS] File: S008.csv -> Predicted: Seizure (Conf: 99.96%, Risk: 99.99%)
+[PASS] File: S009.csv -> Predicted: Seizure (Conf: 85.92%, Risk: 96.62%)
+[PASS] File: S010.csv -> Predicted: Seizure (Conf: 99.97%, Risk: 99.99%)
+Result for Seizure: 10/10
+
+Testing Normal samples from D:\MINIPROJECT\midnight-eclipse\backend\ml\..\..\dataset/non_seizure:
+[PASS] File: O001.csv -> Predicted: Normal (Conf: 99.59%, Risk: 3.35%)
+[PASS] File: O002.csv -> Predicted: Normal (Conf: 99.28%, Risk: 3.6%)
+[PASS] File: O003.csv -> Predicted: Normal (Conf: 99.76%, Risk: 3.2%)
+[PASS] File: O004.csv -> Predicted: Normal (Conf: 99.84%, Risk: 3.14%)
+[PASS] File: O005.csv -> Predicted: Normal (Conf: 99.42%, Risk: 3.49%)
+[PASS] File: O006.csv -> Predicted: Normal (Conf: 99.76%, Risk: 3.2%)
+[PASS] File: O007.csv -> Predicted: Normal (Conf: 99.51%, Risk: 3.41%)
+[PASS] File: O008.csv -> Predicted: Normal (Conf: 99.90%, Risk: 3.08%)
+[PASS] File: O009.csv -> Predicted: Normal (Conf: 99.91%, Risk: 3.08%)
+[PASS] File: O010.csv -> Predicted: Normal (Conf: 99.74%, Risk: 3.22%)
+Result for Normal: 10/10

@@ -5,8 +5,11 @@ import PatientRecordsView from './components/PatientRecordsView';
 import SettingsView from './components/SettingsView';
 import Login from './components/Login';
 import AdminView from './components/AdminView';
+<<<<<<< HEAD
 import ReportSummaryView from './components/ReportSummaryView';
 import ModelMetricsView from './components/ModelMetricsView';
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -19,11 +22,15 @@ function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [loginSessions, setLoginSessions] = useState([]);
+<<<<<<< HEAD
   const [analysisHistory, setAnalysisHistory] = useState([]);
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
   // Persistence check
   useEffect(() => {
     const saved = localStorage.getItem('neuro_user');
+<<<<<<< HEAD
     if (saved) setCurrentUser(JSON.parse(saved));
 
     const sessions = localStorage.getItem('neuro_sessions');
@@ -42,22 +49,48 @@ function App() {
     });
   };
 
+=======
+    if (saved) {
+      setCurrentUser(JSON.parse(saved));
+    }
+    const sessions = localStorage.getItem('neuro_sessions');
+    if (sessions) {
+      setLoginSessions(JSON.parse(sessions));
+    }
+  }, []);
+
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
   const handleLogin = (user) => {
     setCurrentUser(user);
     localStorage.setItem('neuro_user', JSON.stringify(user));
 
+<<<<<<< HEAD
+=======
+    // Add to real sessions
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     const newSession = {
       id: Date.now(),
       user: user.name,
       role: user.role,
       loginTime: user.loginTime || new Date().toLocaleString(),
       status: 'Active',
+<<<<<<< HEAD
       ip: '127.0.0.1',
     };
 
     const updatedSessions = [newSession, ...loginSessions.slice(0, 19)];
     setLoginSessions(updatedSessions);
     localStorage.setItem('neuro_sessions', JSON.stringify(updatedSessions));
+=======
+      ip: '127.0.0.1' // Local access
+    };
+
+    const updatedSessions = [newSession, ...loginSessions.slice(0, 19)]; // Keep last 20
+    setLoginSessions(updatedSessions);
+    localStorage.setItem('neuro_sessions', JSON.stringify(updatedSessions));
+
+    // Default tab based on role
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     setActiveTab(user.role === 'admin' ? 'System Admin' : 'Analysis');
   };
 
@@ -72,13 +105,26 @@ function App() {
     formData.append('file', file);
 
     try {
+<<<<<<< HEAD
       const response = await fetch('http://localhost:8000/analyze/csv', { method: 'POST', body: formData });
       const data = await response.json();
       if (!response.ok) throw new Error(data.detail || 'Server error');
+=======
+      const response = await fetch('http://localhost:8000/analyze/csv', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.detail || "Server error");
+      }
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
       setSignalData(data.raw_signal);
       setRiskScore(data.prediction.risk_score);
       setAnalysisResult(data.prediction);
+<<<<<<< HEAD
 
       pushHistory({
         id: Date.now(),
@@ -92,6 +138,11 @@ function App() {
     } catch (error) {
       console.error('Error uploading CSV:', error);
       alert(error.message || 'Failed to analyze CSV. Ensure backend is running.');
+=======
+    } catch (error) {
+      console.error("Error uploading CSV:", error);
+      alert(error.message || "Failed to analyze CSV. Ensure backend is running.");
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     } finally {
       setLoading(false);
     }
@@ -99,23 +150,41 @@ function App() {
 
   const handleImageUpload = async (file) => {
     setLoading(true);
+<<<<<<< HEAD
     setSignalData(null);
 
     const reader = new FileReader();
     reader.onloadend = () => setSpectrogram(reader.result);
     reader.readAsDataURL(file);
+=======
+    const objectUrl = URL.createObjectURL(file);
+    setSpectrogram(objectUrl);
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
     const formData = new FormData();
     formData.append('file', file);
 
     try {
+<<<<<<< HEAD
       const response = await fetch('http://localhost:8000/analyze/image', { method: 'POST', body: formData });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || data.detail || 'Server failed to analyze image');
+=======
+      const response = await fetch('http://localhost:8000/analyze/image', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || data.detail || "Server failed to analyze image");
+      }
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
       setRiskScore(data.prediction.risk_score);
       setAnalysisResult(data.prediction);
 
+<<<<<<< HEAD
       const signal = data.raw_signal || data.prediction.raw_signal;
       if (signal && Array.isArray(signal) && signal.length > 0) setSignalData(signal);
 
@@ -131,11 +200,22 @@ function App() {
     } catch (error) {
       console.error('Error analyzing image:', error);
       alert(error.message || 'Failed to analyze Image.');
+=======
+      // Handle signal data from backend (either top-level or nested in prediction)
+      const signal = data.raw_signal || data.prediction.raw_signal;
+      if (signal && Array.isArray(signal) && signal.length > 0) {
+        setSignalData(signal);
+      }
+    } catch (error) {
+      console.error("Error analyzing image:", error);
+      alert(error.message || "Failed to analyze Image.");
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     } finally {
       setLoading(false);
     }
   };
 
+<<<<<<< HEAD
   // Called by ReportSummaryView when Gemini summary becomes available
   const handleSummaryReady = (summary) => {
     setAnalysisHistory(prev => {
@@ -147,6 +227,8 @@ function App() {
     });
   };
 
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
   const renderActiveView = () => {
     switch (activeTab) {
       case 'Analysis':
@@ -163,6 +245,7 @@ function App() {
         );
       case 'Patient Records':
         return <PatientRecordsView />;
+<<<<<<< HEAD
       case 'Report Summary':
         return (
           <ReportSummaryView
@@ -178,6 +261,10 @@ function App() {
         return <ModelMetricsView />;
       case 'System Admin':
         return <AdminView sessions={loginSessions} analysisHistory={analysisHistory} />;
+=======
+      case 'System Admin':
+        return <AdminView sessions={loginSessions} />;
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
       case 'Settings':
         return <SettingsView />;
       default:

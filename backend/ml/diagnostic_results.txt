@@ -1,0 +1,32 @@
+﻿Searching for RF Model at: D:\MINIPROJECT\midnight-eclipse\backend\ml\models\best_rf_model.pkl
+SUCCESS: Neural RF Model loaded from D:\MINIPROJECT\midnight-eclipse\backend\ml\models\best_rf_model.pkl
+Searching for CNN Model at: D:\MINIPROJECT\midnight-eclipse\backend\ml\models\cnn_model.pth
+SUCCESS: Neural CNN Model loaded from D:\MINIPROJECT\midnight-eclipse\backend\ml\models\cnn_model.pth
+Searching for LSTM Model at: D:\MINIPROJECT\midnight-eclipse\backend\ml\models\lstm_model.pth
+SUCCESS: LSTM Model loaded from D:\MINIPROJECT\midnight-eclipse\backend\ml\models\lstm_model.pth
+
+Testing Seizure samples from D:\MINIPROJECT\midnight-eclipse\backend\ml\..\..\dataset/seizure:
+[FAIL] File: S001.csv -> Predicted: Normal (Conf: 51.03%, Risk: 44.14%)
+[FAIL] File: S002.csv -> Predicted: Normal (Conf: 50.75%, Risk: 44.37%)
+[FAIL] File: S003.csv -> Predicted: Normal (Conf: 50.23%, Risk: 44.81%)
+[FAIL] File: S004.csv -> Predicted: Normal (Conf: 51.36%, Risk: 43.86%)
+[FAIL] File: S005.csv -> Predicted: Normal (Conf: 51.35%, Risk: 43.87%)
+[FAIL] File: S006.csv -> Predicted: Normal (Conf: 51.10%, Risk: 44.07%)
+[FAIL] File: S007.csv -> Predicted: Normal (Conf: 51.05%, Risk: 44.12%)
+[FAIL] File: S008.csv -> Predicted: Normal (Conf: 50.24%, Risk: 44.8%)
+[FAIL] File: S009.csv -> Predicted: Normal (Conf: 51.01%, Risk: 44.15%)
+[FAIL] File: S010.csv -> Predicted: Normal (Conf: 50.78%, Risk: 44.35%)
+Result for Seizure: 0/10
+
+Testing Normal samples from D:\MINIPROJECT\midnight-eclipse\backend\ml\..\..\dataset/non_seizure:
+[PASS] File: O001.csv -> Predicted: Normal (Conf: 51.07%, Risk: 44.1%)
+[PASS] File: O002.csv -> Predicted: Normal (Conf: 51.19%, Risk: 44.0%)
+[PASS] File: O003.csv -> Predicted: Normal (Conf: 50.86%, Risk: 44.28%)
+[PASS] File: O004.csv -> Predicted: Normal (Conf: 51.11%, Risk: 44.07%)
+[PASS] File: O005.csv -> Predicted: Normal (Conf: 50.90%, Risk: 44.24%)
+[PASS] File: O006.csv -> Predicted: Normal (Conf: 50.24%, Risk: 44.8%)
+[PASS] File: O007.csv -> Predicted: Normal (Conf: 50.71%, Risk: 44.4%)
+[PASS] File: O008.csv -> Predicted: Normal (Conf: 50.46%, Risk: 44.62%)
+[FAIL] File: O009.csv -> Predicted: Seizure (Conf: 50.08%, Risk: 88.02%)
+[PASS] File: O010.csv -> Predicted: Normal (Conf: 51.73%, Risk: 43.55%)
+Result for Normal: 9/10

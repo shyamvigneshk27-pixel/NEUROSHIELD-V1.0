@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Force Reload: v4 (Vision Enhancement)
 import datetime 
 
@@ -5,12 +6,20 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List
+=======
+import datetime 
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Optional
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 import pandas as pd
 import numpy as np
 import json
 import random
 import sys
 import os
+<<<<<<< HEAD
 from dotenv import load_dotenv
 from google import genai
 
@@ -25,6 +34,16 @@ try:
 except Exception as e:
     print(f"Warning: Failed to initialize Gemini Client: {e}")
     genai_client = None
+=======
+
+# ✅ NEW GEMINI SDK
+from google import genai
+
+# ✅ CORRECT API KEY NAME
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
 # Add current directory to path to allow absolute imports when running as a script
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -66,9 +85,12 @@ class ChatRequest(BaseModel):
     query: str
     context: Optional[str] = None # Detailed context from the current report
 
+<<<<<<< HEAD
 class SummarizeRequest(BaseModel):
     analysis_result: dict
 
+=======
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 class LoginRequest(BaseModel):
     username: str
     password: str
@@ -217,6 +239,7 @@ async def health_check():
         }
     }
 
+<<<<<<< HEAD
 @app.post("/summarize")
 async def summarize_report(request: SummarizeRequest):
     if not genai_client:
@@ -275,12 +298,28 @@ async def chat(request: ChatRequest):
     if any(greet in query for greet in ["hello", "hi", "hey", "good morning", "good evening"]):
         response_text += f"{random.choice(greetings)} I am the NeuroShield AI Assistant. {random.choice(support_phrases)}\n\n"
 
+=======
+@app.post("/chat")
+async def chat(request: ChatRequest):
+    query = request.query.lower()
+    response = ""
+    
+    greetings = ["Hello!", "Greetings.", "Hi there!", "Welcome back.", "Hello. I'm ready to assist."]
+    support_phrases = ["I'm here to help you understand this data.", "Let me look into that for you.", "Great question.", "I'm analyzing the clinical patterns now."]
+    
+    # Greeting
+    if any(greet in query for greet in ["hello", "hi", "hey", "good morning", "good evening"]):
+        response += f"{random.choice(greetings)} I am the NeuroShield AI Assistant. {random.choice(support_phrases)}\n\n"
+
+    # Medical terms
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     found_terms = []
     for term, definition in medical_terms.items():
         if term in query:
             found_terms.append(f"**{term.capitalize()}**: {definition}")
             
     if found_terms:
+<<<<<<< HEAD
         response_text += "I found some medical terms in your query:\n" + "\n\n".join(found_terms) + "\n\n"
             
     if any(word in query for word in ["risk", "status", "result", "report", "happen", "wrong", "analyze", "explain"]):
@@ -323,6 +362,58 @@ async def chat(request: ChatRequest):
              
     print(f"[CHAT] Query: {query} (Fallback)")
     return {"answer": response_text.strip()}
+=======
+        response += "From the medical terms in your query:\n" + "\n\n".join(found_terms) + "\n\n"
+            
+    # Context analysis
+    if any(word in query for word in ["risk", "status", "result", "report", "analyze", "explain"]):
+        if request.context:
+            try:
+                ctx = json.loads(request.context)
+                
+                label = ctx.get('label', 'Unknown')
+                risk = ctx.get('risk_score', 0)
+
+                response += f"Report shows **{label}** with risk **{risk:.1f}%**.\n\n"
+            except:
+                response += f"Report: {request.context}\n\n"
+        else:
+            response += "Please upload EEG data for analysis.\n\n"
+    
+    # 🔥 SINGLE GEMINI CALL
+    try:
+        print("🔥 Gemini called")
+
+        prompt = f"""
+        You are a medical AI assistant.
+
+        User Query:
+        {request.query}
+
+        Current Response:
+        {response}
+
+        Provide:
+        - Clear explanation
+        - Remedies if needed
+        """
+
+        ai_response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=prompt
+        )
+
+        if ai_response.text:
+            response = ai_response.text
+
+    except Exception as e:
+        print("❌ Gemini Error:", e)
+        response += "\n\n(AI unavailable, basic response shown)"
+
+    print(f"[CHAT] {query}")
+    print("API KEY:", os.getenv("GEMINI_API_KEY"))
+    return {"answer": response.strip()}
+>>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
