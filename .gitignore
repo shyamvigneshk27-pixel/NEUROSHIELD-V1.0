@@ -44,3 +44,8 @@ models/test_log.txt
 backend/ml/diagnostic_results*.txt
 scripts/test_chat_results.txt
 scripts/verification_results.txt
+
+normal_sample.csv
+seizure_sample.csv
+tk.py
+convert.py
