@@ -65,11 +65,7 @@ const AnalysisView = ({
                 return (
                     <div className="space-y-8 h-full">
                         <div className="h-[350px]">
-<<<<<<< HEAD
                             <SignalViewer data={signalData} loading={loading} mode={analysisResult?.mode} />
-=======
-                            <SignalViewer data={signalData} loading={loading} />
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                         </div>
                         <div className="h-[350px]">
                             <SpectrogramView imageUrl={spectrogram} rawData={signalData} />
@@ -151,11 +147,7 @@ const AnalysisView = ({
                         <div className="mt-16 pt-8 border-t border-white/5">
                             <h5 className="text-[10px] font-black text-neon-green/60 uppercase tracking-[0.3em] mb-6 flex items-center gap-2">
                                 <Activity className="w-3 h-3" />
-<<<<<<< HEAD
                                 {analysisResult?.mode === 'spectrogram' ? 'Computed Spectral Features (JSON Derived)' : 'Computed Signal Parameters (JSON Derived)'}
-=======
-                                Computed Signal Parameters (JSON Derived)
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                             </h5>
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                                 {analysisResult?.stats && Object.entries(analysisResult.stats).map(([stat, val]) => (

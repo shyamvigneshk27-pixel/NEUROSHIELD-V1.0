@@ -8,11 +8,7 @@ import pandas as pd
 import io
 import os
 import sys
-<<<<<<< HEAD
 import cv2
-import librosa
-=======
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
 
 # Add necessary paths for utilities
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -221,10 +217,7 @@ class Predictor:
                 }
                 
                 return {
-<<<<<<< HEAD
                     "mode": "csv",
-=======
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                     "label": display_label,
                     "risk_score": round(risk_score, 2),
                     "confidence": float(conf * 100),
@@ -266,10 +259,7 @@ class Predictor:
             }
             
             return {
-<<<<<<< HEAD
                 "mode": "csv",
-=======
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                 "label": display_label,
                 "risk_score": round(risk_score, 2),
                 "confidence": float(max_prob * 100),
@@ -305,83 +295,6 @@ class Predictor:
             is_seizure = torch.argmax(probs[0]).item() == 1
             display_label = "Seizure" if is_seizure else "Normal"
             
-<<<<<<< HEAD
-            # --- SPECTROGRAM PIPELINE ---
-            nparr = np.frombuffer(image_bytes, np.uint8)
-            img_cv = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-            
-            gray_image = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
-            gray_norm = gray_image.astype(np.float32) / 255.0
-            
-            mean_intensity = float(np.mean(gray_norm))
-            variance = float(np.var(gray_norm))
-            std_dev = float(np.std(gray_norm))
-            
-            hist, _ = np.histogram(gray_norm, bins=256, range=(0,1), density=True)
-            hist = hist[hist > 0]
-            hist = hist / np.sum(hist)
-            spectral_entropy = float(-np.sum(hist * np.log2(hist)))
-
-            stats = {
-                "mean_intensity": mean_intensity,
-                "variance": variance,
-                "std_dev": std_dev,
-                "spectral_entropy": spectral_entropy
-            }
-
-            # Frequency bands (Bottom to top)
-            h, w = gray_norm.shape
-            band_h = h // 5
-            
-            gamma_slice = gray_norm[0:band_h, :]
-            beta_slice = gray_norm[band_h:2*band_h, :]
-            alpha_slice = gray_norm[2*band_h:3*band_h, :]
-            theta_slice = gray_norm[3*band_h:4*band_h, :]
-            delta_slice = gray_norm[4*band_h:h, :]
-            
-            p_gamma = np.mean(gamma_slice)
-            p_beta = np.mean(beta_slice)
-            p_alpha = np.mean(alpha_slice)
-            p_theta = np.mean(theta_slice)
-            p_delta = np.mean(delta_slice)
-            
-            total_p = p_gamma + p_beta + p_alpha + p_theta + p_delta + 1e-8
-            bands = {
-                "gamma": float((p_gamma/total_p)*100),
-                "beta": float((p_beta/total_p)*100),
-                "alpha": float((p_alpha/total_p)*100),
-                "theta": float((p_theta/total_p)*100),
-                "delta": float((p_delta/total_p)*100)
-            }
-
-            # Pseudo signal
-            pseudo_signal_raw = np.mean(gray_norm, axis=0)
-            if np.std(pseudo_signal_raw) > 0:
-                 ps_norm = (pseudo_signal_raw - np.mean(pseudo_signal_raw)) / np.std(pseudo_signal_raw)
-            else:
-                 ps_norm = pseudo_signal_raw
-                 
-            x_old = np.linspace(0, 1, len(ps_norm))
-            x_new = np.linspace(0, 1, 178)
-            pseudo_signal = np.interp(x_new, x_old, ps_norm).tolist()
-            
-            try:
-                mag_spec = gray_norm * 10.0
-                recon = librosa.griffinlim(mag_spec, n_iter=10) # fast iterations
-                if len(recon) > 0:
-                    recon = (recon - np.mean(recon)) / (np.std(recon) + 1e-8)
-                    x_r = np.linspace(0, 1, len(recon))
-                    recon_178 = np.interp(x_new, x_r, recon).tolist()
-                    pseudo_signal = recon_178
-            except Exception as lib_e:
-                print("Griffin-Lim fallback:", lib_e)
-                pass
-
-            risk_score = self.smooth_risk_score(conf, label_is_seizure=is_seizure)
-            
-            return {
-                "mode": "spectrogram",
-=======
             # Estimate signal for stats
             est_signal = self.estimate_signal_from_spectrogram(image)
             filtered = bandpass_filter(est_signal) if est_signal else []
@@ -403,7 +316,7 @@ class Predictor:
             }
 
             return {
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
+                "mode": "spectrogram",
                 "label": display_label,
                 "risk_score": round(risk_score, 2),
                 "confidence": float(conf * 100),
@@ -411,18 +324,10 @@ class Predictor:
                 "bands": bands,
                 "stats": stats,
                 "interpretation": f"Visual spectrogram analysis complete. {display_label} features identified with specific neural band intensities.",
-<<<<<<< HEAD
-                "raw_signal": pseudo_signal
-            }
-        except Exception as e:
-            import traceback
-            print(traceback.format_exc())
-            return {"error": f"Image processing failure: {str(e)}"}
-=======
                 "raw_signal": est_signal
             }
         except Exception as e:
-             return {"error": f"Image processing failure: {str(e)}"}
+            return {"error": f"Image processing failure: {str(e)}"}
 
     def extract_bands_from_spectrogram(self, image):
         """
@@ -477,4 +382,3 @@ class Predictor:
             return [float(x) for x in sig]
         except:
             return []
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502

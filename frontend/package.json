@@ -11,11 +11,8 @@
   },
   "dependencies": {
     "framer-motion": "^12.33.0",
-<<<<<<< HEAD
     "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
-=======
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     "lucide-react": "^0.563.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

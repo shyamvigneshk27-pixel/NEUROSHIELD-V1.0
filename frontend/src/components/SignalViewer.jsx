@@ -3,11 +3,7 @@ import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'rec
 import { motion } from 'framer-motion';
 import { Activity } from 'lucide-react';
 
-<<<<<<< HEAD
 const SignalViewer = ({ data, mode }) => {
-=======
-const SignalViewer = ({ data }) => {
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     const [chartData, setChartData] = useState([]);
 
     useEffect(() => {
@@ -27,11 +23,7 @@ const SignalViewer = ({ data }) => {
             <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-white/90 flex items-center gap-2">
                     <Activity className="w-5 h-5 text-neon-blue" />
-<<<<<<< HEAD
                     {mode === 'spectrogram' ? 'Energy Envelope Signal (Derived)' : 'EEG Signal Analysis'}
-=======
-                    EEG Signal Analysis
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
                 </h3>
                 <span className="text-xs px-2 py-1 rounded bg-white/5 border border-white/10 text-gray-400">
                     {data ? "Static View (1s)" : "Waiting for input..."}

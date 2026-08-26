@@ -1,5 +1,4 @@
 import React from 'react';
-<<<<<<< HEAD
 import { Activity, Brain, FileText, Settings, Menu, LogOut, Shield, BarChart2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BackgroundDecorations from './BackgroundDecorations';
@@ -11,33 +10,20 @@ const DashboardLayout = ({ children, activeTab, onTabChange, user, onLogout }) =
         setMousePos({ x: e.clientX, y: e.clientY });
     };
 
-=======
-import { Activity, Brain, FileText, Settings, Menu, LogOut, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
-import BackgroundDecorations from './BackgroundDecorations';
-
-const DashboardLayout = ({ children, activeTab, onTabChange, user, onLogout }) => {
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
     // Filtered tabs based on role
     const menuItems = user?.role === 'admin'
         ? [
             { id: 'Patient Records', icon: Brain },
             { id: 'Analysis', icon: FileText },
-<<<<<<< HEAD
             { id: 'Report Summary', icon: Activity },
             { id: 'Model Metrics', icon: BarChart2 },
-=======
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
             { id: 'System Admin', icon: Shield },
             { id: 'Settings', icon: Settings }
         ]
         : [
             { id: 'Analysis', icon: FileText },
-<<<<<<< HEAD
             { id: 'Report Summary', icon: Activity },
             { id: 'Model Metrics', icon: BarChart2 },
-=======
->>>>>>> 6810180e0d61c3358496c41f03984827a83b6502
             { id: 'Settings', icon: Settings }
         ];
 
